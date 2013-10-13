@@ -12,6 +12,8 @@ var AssemblyLine = function(options) {
 		access_token: options.accessToken,
 		access_token_secret: options.accessTokenSecret
 	});
+
+	this.quiet = options.quiet;
 }
 
 AssemblyLine.prototype = {
@@ -38,19 +40,16 @@ AssemblyLine.prototype = {
 		this.restart();
 	},
 	restart: function() {
-		if (!this.callback) {
-			return;
-		}
+		if (!this.callback) return;
 
 		var filter = {};
-		if(this.filters.follow.length > 0) {
-			filter.follow = this.filters.follow.join(',');
-		}
-		if (this.filters.track.length > 0) {
-			filter.track = this.filters.track.join(',');
-		}
-		if (this.filters.locations.length > 0) {
-			filter.locations = this.filters.locations.join(',');
+		if(this.filters.follow.length > 0) filter.follow = this.filters.follow.join(',');
+		if (this.filters.track.length > 0) filter.track = this.filters.track.join(',');
+		if (this.filters.locations.length > 0) filter.locations = this.filters.locations.join(',');
+
+		try {
+			this.stream.stop();
+		} catch (err) {
 		}
 
 		this.stream = this.T.stream('statuses/filter', filter);
@@ -63,12 +62,17 @@ AssemblyLine.prototype = {
 		});
 	},
 	tweet: function(text, inResponseTo) {
+		var prototype = this;
+		if (!text) return;
 		this.T.post('statuses/update', {status: text, in_reply_to_status_id: inResponseTo}, function(error) {
 			if (error) {
-				console.log('Could not post tweet: \'' + text + '\'');
-				console.log('Reason: ' + error.message);
+				if (!prototype.quiet) {
+					console.log('Could not post tweet: \'' + text + '\'');
+					console.log('Reason: ' + error.message);
+				}
 			} else {
-				console.log('Posted tweet: \'' + text + '\'');
+				if (!prototype.quiet)
+					console.log('Posted tweet: \'' + text + '\'');
 			}
 		});
 	}

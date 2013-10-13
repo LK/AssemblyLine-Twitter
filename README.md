@@ -20,6 +20,8 @@ AssemblyLine provides an incredibly simple way to create a Twitter bot in Node. 
 
 Make sure to fill in the information from the Twitter API Developer Console.
 
+In addition to the options specified above, you can also add the option `quiet`, which if set to `true` will prevent AssemblyLine from logging messages.
+
 ### Bot Creation
 
 The way an AssemblyLine Twitter Bot works is it filters all of the Tweets going through Twitter based on keywords, users, and locations. At least one filter must be specified in order for the bot to function properly. So, when creating a bot, you must first add filters. Below is the documentation for the various filter-related methods on an AssemblyLine object. If any of these are called after the bot was started, the bot will restart with the new filter automagically.
