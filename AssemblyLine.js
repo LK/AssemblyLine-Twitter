@@ -14,6 +14,12 @@ var ReplyBot = function(options) {
 	});
 
 	this.quiet = options.quiet;
+	if (options.rateLimit)
+		this.rateLimit = options.rateLimit;
+	else
+		this.rateLimit = 0;
+
+	this.lastTweet = new Date();
 }
 
 ReplyBot.prototype = {
@@ -57,8 +63,11 @@ ReplyBot.prototype = {
 		//TODO: There's probably a better way to do this...
 		var prototype = this;
 		this.stream.on('tweet', function(tweet) {
-			var response = prototype.callback(tweet);
-			prototype.tweet(response, tweet.id_str);
+			if ((new Date().getTime() - prototype.lastTweet.getTime()) / 1000 >= prototype.rateLimit || this.rateLimit === 0) {
+				prototype.lastTweet = new Date();
+				var response = prototype.callback(tweet);
+				prototype.tweet(response, tweet.id_str);
+			}
 		});
 	},
 	tweet: function(text, inResponseTo) {

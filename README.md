@@ -23,6 +23,7 @@ Make sure to fill in the information from the Twitter API Developer Console.
 ##### Optional Parameters
 - `quiet` (default = false): When set to true, AssemblyLine will stop logging messages.
 - `followBack` (default = true; only for DM bots): If set to false, AssemblyLine will not automatically follow everyone who follows the bot.
+- `rateLimit` (default = 0; only for reply bots): The number of seconds to wait between tweets. Every time the number of seconds specified here passes, the next tweet matching the filters will be passed to the callback - otherwise the tweet will not be passed. If the rateLimit is set to 0 then all tweets will be passed to the callback.
 
 ### Bot Creation
 
