@@ -64,6 +64,35 @@ ReplyBot.prototype = {
 		var prototype = this;
 		this.stream.on('tweet', function(tweet) {
 			if ((new Date().getTime() - prototype.lastTweet.getTime()) / 1000 >= prototype.rateLimit || this.rateLimit === 0) {
+				tweet.favoriteTweet = function() {
+					prototype.T.post('favorites/create', { id: tweet.id_str }, function(error, response) {
+						if (error) {
+							if (!prototype.quiet) {
+								console.log('Could not favorite tweet: \'' + tweet.text + '\'');
+								console.log('Reason: ' + error.message);
+							}
+						} else {
+							if (!prototype.quiet)
+								console.log('Favorited tweet: \'' + tweet.text + '\'');
+						}
+					});
+				};
+				/*
+				tweet.retweetTweet = function() {
+					prototype.T.post('statuses/retweet/' + tweet.id_str, function(error, response) {
+						if (error) {
+							if (!prototype.quiet) {
+								console.log('Could not retweet tweet: \'' + tweet.text + '\'');
+								console.log('Reason: ' + error.message);
+							}
+						} else {
+							if (!prototype.quiet)
+								console.log('Retweeted tweet: \'' + tweet.text + '\'');
+						}
+					});
+				};
+				*/ //Retweets cause infinite RT loop if a keyword filter is active
+
 				prototype.lastTweet = new Date();
 				var response = prototype.callback(tweet);
 				prototype.tweet(response, tweet.id_str);
