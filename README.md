@@ -26,7 +26,7 @@ Make sure to fill in the information from the Twitter API Developer Console.
 
 ### Bot Creation
 
-##### Reply Bot
+# Reply Bot
 The way an AssemblyLine Reply Bot works is it filters all of the Tweets going through Twitter based on keywords, users, and locations. At least one filter must be specified in order for the bot to function properly. So, when creating a bot, you must first add filters. Below is the documentation for the various filter-related methods on an AssemblyLine object. If any of these are called after the bot was started, the bot will restart with the new filter automagically.
 
 
@@ -49,7 +49,7 @@ Now that the bot has some filters, it's time to start it up. To do that, we call
 ## `bot.start(callback)`
 When this is called the bot will begin monitoring tweets with the specified filters. When a tweet matching at least one of the filters is posted, `callback` is called with one parameter - the tweet that matched the filters. This will be an object of the same structure as a Twitter REST API request to retrieve a tweet - more information can be found [here](https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid). `callback` must return a string, which will be posted to Twitter as a reply to the tweet that triggered the callback, or `null` if nothing should be tweeted.
 
-##### DM Bot
+# DM Bot
 A DM Bot simply replies to DMs sent to the bot. AssemblyLine will automatically follow any users who follow the bot (by default, this behavior is configurable). This makes DM bots incredibly simple to make.
 
 ## `bot.start(callback)`
