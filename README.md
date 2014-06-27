@@ -99,6 +99,3 @@ Contributions are always welcome. If you find a bug, please create an issue, or 
 - Code Cleanup
 
 Again, if you have any questions/comments/feedback, contact me on [Twitter](http://twitter.com/LennyKhazan).
-
-## Note
-Some people have asked about where the JS file goes. My setup is as follows: I placed AssemblyLine.js in the same directory as the rest of my project. Then, I ran `npm install twit`. Lastly, I replaced the `require('AssemblyLine')` line in my project with `require('./AssemblyLine.js')`. I am eventually planning on publishing this to NPM, which should make the setup process significantly simpler. If anybody has a better way of setting this up, please let me know on Twitter.
